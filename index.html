@@ -1,0 +1,24 @@
+    <script>
+        async function getJobTicket() {
+        try {
+            const res = await fetch('https://randomuser.me/api/');
+            const data = await res.json();
+            console.log(data);
+            
+            const firstName = data.results[0].name.first;
+            console.log('原始名字:',firstName);
+            const reversedName = firstName.split('').reverse().join('');
+            console.log('反轉名字:', reversedName);
+            document.body.innerHTML = `
+            <div style="text-align: center; margin-top: 50px; font-family: Arial;">
+                <img src="${data.results[0].picture.large}" style="border-radius: 50%; border: 5px solid #ccc;">
+                <h1 style="color: blue;">原始名字: ${firstName}</h1>
+                <h1 style="color: red;">反轉名字: ${reversedName}</h1>
+            </div>
+        `;
+        }catch(error){
+            console.log('出錯了 , 但頂尖前端會處理它:',error);
+            };
+        }
+    getJobTicket();
+   </script>

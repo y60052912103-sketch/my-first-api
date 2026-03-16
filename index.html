@@ -1,24 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>我的第一個 API 作品</title>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: "Microsoft JhengHei", sans-serif;
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 300px;
+        }
+        img {
+            border-radius: 50%;
+            border: 5px solid #e0e0e0;
+            margin-bottom: 1rem;
+        }
+        h1 { font-size: 1.5rem; color: #1a73e8; }
+        h2 { font-size: 1.2rem; color: #d93025; }
+    </style>
+</head>
+<body>
+    <div id="app">正在載入人才資料...</div>
+
     <script>
         async function getJobTicket() {
-        try {
-            const res = await fetch('https://randomuser.me/api/');
-            const data = await res.json();
-            console.log(data);
-            
-            const firstName = data.results[0].name.first;
-            console.log('原始名字:',firstName);
-            const reversedName = firstName.split('').reverse().join('');
-            console.log('反轉名字:', reversedName);
-            document.body.innerHTML = `
-            <div style="text-align: center; margin-top: 50px; font-family: Arial;">
-                <img src="${data.results[0].picture.large}" style="border-radius: 50%; border: 5px solid #ccc;">
-                <h1 style="color: blue;">原始名字: ${firstName}</h1>
-                <h1 style="color: red;">反轉名字: ${reversedName}</h1>
-            </div>
-        `;
-        }catch(error){
-            console.log('出錯了 , 但頂尖前端會處理它:',error);
-            };
+            try {
+                const res = await fetch('https://randomuser.me/api/');
+                const data = await res.json();
+                const user = data.results[0];
+                const firstName = user.name.first;
+                const reversedName = firstName.split('').reverse().join('');
+                
+                document.body.innerHTML = `
+                    <div class="card">
+                        <img src="${user.picture.large}" alt="user">
+                        <h1>原始名字: ${firstName}</h1>
+                        <h2>反轉名字: ${reversedName}</h2>
+                        <p>Email: ${user.email}</p>
+                    </div>
+                `;
+            } catch(error) {
+                document.body.innerHTML = "資料抓取失敗，請檢查網路。";
+            }
         }
-    getJobTicket();
-   </script>
+        getJobTicket();
+    </script>
+</body>
+</html>
